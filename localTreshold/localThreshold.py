@@ -13,15 +13,28 @@ def localThres(image, block_size=15, c=10):
             threshold[i,j] = 255 if image[i,j] > (local_mean - c) else 0
     return threshold
 
+def besic_treshold(image, lv=150):
+    threshold = np.where(image > lv, 255, 0)
+    return threshold.astype(np.uint8)
+
+
 image = img.imread("labubu.jpeg", mode='F')
+besic_img = besic_treshold(image)
 threshold_img = localThres(image)
+
 
 plt.figure(figsize=(10,6))
 plt.subplot(2,2,1)
+plt.title('original image')
 plt.imshow(image, cmap='gray')
 
 plt.subplot(2,2,2)
-plt.imshow(threshold_img, cmap='gray')
+plt.title('besic treshold')
+plt.imshow(besic_img, cmap='gray')
+
+plt.subplot(2,2,3)
+plt.title('local treshold')
+plt.imshow(threshold_img , cmap='gray')
 
 plt.tight_layout()
 plt.show()
